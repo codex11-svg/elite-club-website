@@ -1,155 +1,418 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaCheck, FaUser, FaEnvelope, FaGraduationCap, FaCode, FaLightbulb, FaRocket } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaArrowLeft,
+  FaCode,
+  FaBrain,
+  FaPalette,
+  FaShieldAlt,
+  FaCloud,
+  FaChartBar,
+  FaMobileAlt,
+  FaEnvelope,
+  FaCopy,
+  FaCheck,
+  FaRedo,
+  FaLightbulb,
+} from "react-icons/fa";
+import { quizQuestions, domainResults } from "@/lib/data";
 
-const domains = [
-  { id: "web", label: "Web Development", icon: FaCode },
-  { id: "mobile", label: "Mobile Development", icon: FaRocket },
-  { id: "ai", label: "AI / Machine Learning", icon: FaLightbulb },
-  { id: "design", label: "UI/UX Design", icon: FaUser },
-  { id: "devops", label: "DevOps / Cloud", icon: FaRocket },
-  { id: "blockchain", label: "Blockchain / Web3", icon: FaCode },
-];
+const domainIcons: Record<string, React.ElementType> = {
+  code: FaCode,
+  brain: FaBrain,
+  palette: FaPalette,
+  shield: FaShieldAlt,
+  cloud: FaCloud,
+  chart: FaChartBar,
+  mobile: FaMobileAlt,
+};
 
-const experienceLevels = ["Beginner", "Intermediate", "Advanced"];
+const CLUB_EMAIL = "hello@elitetech.club";
+
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
 
 export default function JoinPage() {
-  const [formData, setFormData] = useState({ name: "", email: "", year: "", department: "", experience: "", domains: [] as string[], whyJoin: "" });
-  const [submitted, setSubmitted] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [shuffledQuestions] = useState(() =>
+    shuffleArray(quizQuestions).slice(0, 5)
+  );
+  const [currentQ, setCurrentQ] = useState(0);
+  const [scores, setScores] = useState<Record<string, number>>({});
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [showResult, setShowResult] = useState(false);
+  const [showContactPopup, setShowContactPopup] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const toggleDomain = (domainId: string) => {
-    setFormData((prev) => ({ ...prev, domains: prev.domains.includes(domainId) ? prev.domains.filter((d) => d !== domainId) : [...prev.domains, domainId] }));
+  const handleOptionSelect = (optionIndex: number) => {
+    setSelectedOption(optionIndex);
   };
 
-  const validate = () => {
-    const newErrors: Record<string, string> = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Invalid email";
-    if (!formData.year) newErrors.year = "Year is required";
-    if (!formData.department.trim()) newErrors.department = "Department is required";
-    if (!formData.experience) newErrors.experience = "Experience level is required";
-    if (formData.domains.length === 0) newErrors.domains = "Select at least one domain";
-    if (!formData.whyJoin.trim()) newErrors.whyJoin = "Please tell us why you want to join";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const handleNext = () => {
+    if (selectedOption === null) return;
+
+    const question = shuffledQuestions[currentQ];
+    const option = question.options[selectedOption];
+
+    setScores((prev) => {
+      const newScores = { ...prev };
+      Object.entries(option.scores).forEach(([domain, score]) => {
+        newScores[domain] = (newScores[domain] || 0) + score;
+      });
+      return newScores;
+    });
+
+    if (currentQ < shuffledQuestions.length - 1) {
+      setCurrentQ((prev) => prev + 1);
+      setSelectedOption(null);
+    } else {
+      setShowResult(true);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validate()) setSubmitted(true);
+  const handlePrev = () => {
+    if (currentQ > 0) {
+      setCurrentQ((prev) => prev - 1);
+      setSelectedOption(null);
+    }
   };
+
+  const getRecommendedDomain = useCallback(() => {
+    let maxScore = -1;
+    let bestDomain = domainResults[0];
+    Object.entries(scores).forEach(([domainId, score]) => {
+      if (score > maxScore) {
+        maxScore = score;
+        const found = domainResults.find((d) => d.id === domainId);
+        if (found) bestDomain = found;
+      }
+    });
+    return bestDomain;
+  }, [scores]);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(CLUB_EMAIL);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleRetake = () => {
+    window.location.reload();
+  };
+
+  const progress = ((currentQ + (selectedOption !== null ? 1 : 0)) / shuffledQuestions.length) * 100;
 
   return (
     <div className="pt-24 pb-16 bg-gradient-to-b from-blue-50 to-white min-h-screen">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center mb-12">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Join <span className="text-[#0075FF]">Elite</span></h1>
-          <p className="text-gray-500 max-w-xl mx-auto">Applications are open for Spring 2025. Tell us about yourself and why you want to be part of the community.</p>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-10"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-[#0075FF] text-sm font-medium mb-6">
+            <FaLightbulb className="w-4 h-4" />
+            Discover Your Domain
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+            Find Your <span className="text-[#0075FF]">Perfect Fit</span>
+          </h1>
+          <p className="text-gray-500 max-w-xl mx-auto">
+            Take this quick quiz to discover which tech domain suits you best. The questions change every time!
+          </p>
         </motion.div>
 
-        <AnimatePresence mode="wait">
-          {submitted ? (
-            <motion.div key="success" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white border border-gray-100 rounded-2xl p-12 text-center shadow-sm">
-              <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-6">
-                <FaCheck className="w-10 h-10 text-green-500" />
+        {!showResult ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-white border border-gray-100 rounded-2xl p-6 sm:p-8 shadow-sm"
+          >
+            {/* Progress */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
+                <span>
+                  Question {currentQ + 1} of {shuffledQuestions.length}
+                </span>
+                <span>{Math.round(progress)}%</span>
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">Application Submitted!</h2>
-              <p className="text-gray-500 mb-6">Thank you for your interest in Elite Tech Club. We&apos;ll review your application and get back to you within 5-7 business days.</p>
-              <p className="text-gray-400 text-sm">Check your email at {formData.email} for confirmation.</p>
+              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full bg-[#0075FF] rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progress}%` }}
+                  transition={{ duration: 0.4 }}
+                />
+              </div>
+            </div>
+
+            {/* Question */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentQ}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -30 }}
+                transition={{ duration: 0.3 }}
+              >
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
+                  {shuffledQuestions[currentQ].question}
+                </h2>
+
+                <div className="space-y-3">
+                  {shuffledQuestions[currentQ].options.map((option, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleOptionSelect(index)}
+                      className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 ${
+                        selectedOption === index
+                          ? "border-[#0075FF] bg-blue-50 text-gray-900"
+                          : "border-gray-100 bg-white text-gray-600 hover:border-gray-200 hover:bg-gray-50"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                            selectedOption === index
+                              ? "border-[#0075FF] bg-[#0075FF]"
+                              : "border-gray-300"
+                          }`}
+                        >
+                          {selectedOption === index && (
+                            <div className="w-2 h-2 rounded-full bg-white" />
+                          )}
+                        </div>
+                        <span className="font-medium">{option.text}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Navigation */}
+            <div className="flex items-center justify-between mt-8">
+              <button
+                onClick={handlePrev}
+                disabled={currentQ === 0}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  currentQ === 0
+                    ? "text-gray-300 cursor-not-allowed"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                }`}
+              >
+                <FaArrowLeft className="w-4 h-4" />
+                Previous
+              </button>
+
+              <button
+                onClick={handleNext}
+                disabled={selectedOption === null}
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  selectedOption === null
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-[#0075FF] text-white hover:bg-[#005FCC]"
+                }`}
+              >
+                {currentQ === shuffledQuestions.length - 1 ? "See Results" : "Next"}
+                <FaArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </motion.div>
+        ) : (
+          /* RESULTS */
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm text-center"
+            >
+              <div className="mb-6">
+                <span className="text-gray-400 text-sm font-medium uppercase tracking-wider">
+                  Your Recommended Domain
+                </span>
+              </div>
+
+              {(() => {
+                const domain = getRecommendedDomain();
+                const Icon = domainIcons[domain.icon] || FaCode;
+                return (
+                  <>
+                    <div
+                      className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${domain.color} flex items-center justify-center mx-auto mb-6 shadow-lg`}
+                    >
+                      <Icon className="w-10 h-10 text-white" />
+                    </div>
+
+                    <h2 className="text-3xl font-bold text-gray-900 mb-3">
+                      {domain.name}
+                    </h2>
+
+                    <p className="text-gray-500 max-w-lg mx-auto mb-8 leading-relaxed">
+                      {domain.description}
+                    </p>
+
+                    <div className="mb-8">
+                      <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                        Key Skills
+                      </h3>
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {domain.skills.map((skill) => (
+                          <span
+                            key={skill}
+                            className="px-3 py-1.5 rounded-lg bg-gray-50 text-gray-600 text-sm font-medium border border-gray-100"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                      <button
+                        onClick={() => setShowContactPopup(true)}
+                        className="flex items-center gap-2 px-8 py-4 rounded-xl bg-[#0075FF] text-white font-semibold hover:bg-[#005FCC] transition-all hover:scale-105 active:scale-95"
+                      >
+                        <FaEnvelope className="w-5 h-5" />
+                        Interested to Join?
+                      </button>
+                      <button
+                        onClick={handleRetake}
+                        className="flex items-center gap-2 px-6 py-4 rounded-xl bg-white border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-all"
+                      >
+                        <FaRedo className="w-4 h-4" />
+                        Retake Quiz
+                      </button>
+                    </div>
+                  </>
+                );
+              })()}
             </motion.div>
-          ) : (
-            <motion.form key="form" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -30 }} transition={{ duration: 0.6, delay: 0.1 }}
-              onSubmit={handleSubmit} className="space-y-8">
-              <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm">
-                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2"><FaUser className="w-5 h-5 text-[#0075FF]" />Personal Information</h2>
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-gray-600 text-sm font-medium mb-2">Full Name</label>
-                    <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#0075FF] focus:ring-1 focus:ring-[#0075FF] transition-all" placeholder="John Doe" />
-                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
-                  </div>
-                  <div>
-                    <label className="block text-gray-600 text-sm font-medium mb-2">Email</label>
-                    <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#0075FF] focus:ring-1 focus:ring-[#0075FF] transition-all" placeholder="john@example.com" />
-                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-                  </div>
-                  <div>
-                    <label className="block text-gray-600 text-sm font-medium mb-2">Year of Study</label>
-                    <select value={formData.year} onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:border-[#0075FF] focus:ring-1 focus:ring-[#0075FF] transition-all appearance-none cursor-pointer">
-                      <option value="">Select year</option>
-                      <option value="Freshman">Freshman</option>
-                      <option value="Sophomore">Sophomore</option>
-                      <option value="Junior">Junior</option>
-                      <option value="Senior">Senior</option>
-                    </select>
-                    {errors.year && <p className="text-red-500 text-xs mt-1">{errors.year}</p>}
-                  </div>
-                  <div>
-                    <label className="block text-gray-600 text-sm font-medium mb-2">Department</label>
-                    <input type="text" value={formData.department} onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#0075FF] focus:ring-1 focus:ring-[#0075FF] transition-all" placeholder="Computer Science" />
-                    {errors.department && <p className="text-red-500 text-xs mt-1">{errors.department}</p>}
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm">
-                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2"><FaGraduationCap className="w-5 h-5 text-[#0075FF]" />Experience & Interests</h2>
-                <div className="mb-6">
-                  <label className="block text-gray-600 text-sm font-medium mb-3">Experience Level</label>
-                  <div className="flex flex-wrap gap-3">
-                    {experienceLevels.map((level) => (
-                      <button key={level} type="button" onClick={() => setFormData({ ...formData, experience: level })}
-                        className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all border ${formData.experience === level ? "bg-[#0075FF] text-white border-[#0075FF]" : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"}`}>{level}</button>
-                    ))}
-                  </div>
-                  {errors.experience && <p className="text-red-500 text-xs mt-2">{errors.experience}</p>}
-                </div>
-                <div>
-                  <label className="block text-gray-600 text-sm font-medium mb-3">Domains of Interest</label>
-                  <div className="grid sm:grid-cols-2 gap-3">
-                    {domains.map((domain) => {
-                      const Icon = domain.icon;
-                      const isSelected = formData.domains.includes(domain.id);
-                      return (
-                        <button key={domain.id} type="button" onClick={() => toggleDomain(domain.id)}
-                          className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all border ${isSelected ? "bg-[#0075FF] text-white border-[#0075FF]" : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"}`}>
-                          <Icon className="w-4 h-4" />{domain.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  {errors.domains && <p className="text-red-500 text-xs mt-2">{errors.domains}</p>}
-                </div>
-              </div>
-
-              <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm">
-                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2"><FaLightbulb className="w-5 h-5 text-[#0075FF]" />Why Elite?</h2>
-                <div>
-                  <label className="block text-gray-600 text-sm font-medium mb-2">Why do you want to join Elite Tech Club?</label>
-                  <textarea value={formData.whyJoin} onChange={(e) => setFormData({ ...formData, whyJoin: e.target.value })} rows={5}
-                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#0075FF] focus:ring-1 focus:ring-[#0075FF] transition-all resize-none"
-                    placeholder="Tell us about your goals, what you hope to learn, and how you can contribute..." />
-                  {errors.whyJoin && <p className="text-red-500 text-xs mt-1">{errors.whyJoin}</p>}
-                </div>
-              </div>
-
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} type="submit"
-                className="w-full py-4 rounded-xl bg-[#0075FF] text-white font-semibold text-lg hover:bg-[#005FCC] transition-colors cursor-pointer">
-                Submit Application
-              </motion.button>
-            </motion.form>
-          )}
-        </AnimatePresence>
+          </AnimatePresence>
+        )}
       </div>
+
+      {/* Contact Popup */}
+      <AnimatePresence>
+        {showContactPopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+            onClick={() => setShowContactPopup(false)}
+          >
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
+              className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="bg-gradient-to-r from-[#0075FF] to-[#005FCC] p-8 text-center">
+                <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
+                  <FaEnvelope className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  Ready to Join?
+                </h3>
+                <p className="text-blue-100 text-sm">
+                  We&apos;d love to have you on board!
+                </p>
+              </div>
+
+              {/* Body */}
+              <div className="p-8 space-y-6">
+                <div className="text-center">
+                  <p className="text-gray-600 mb-4">
+                    To join Elite Tech Club, please send us an email from your personal email address with:
+                  </p>
+                  <ul className="text-left text-gray-500 text-sm space-y-2 mb-6 bg-gray-50 p-4 rounded-xl">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#0075FF] mt-0.5">•</span>
+                      <span>Your name and year/department</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#0075FF] mt-0.5">•</span>
+                      <span>The domain you&apos;re interested in</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#0075FF] mt-0.5">•</span>
+                      <span>A brief introduction about yourself</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#0075FF] mt-0.5">•</span>
+                      <span>Why you want to join Elite Club</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Email */}
+                <div className="bg-blue-50 border border-blue-100 rounded-xl p-4">
+                  <p className="text-gray-500 text-xs font-medium uppercase tracking-wider mb-2">
+                    Send your email to
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <a
+                      href={`mailto:${CLUB_EMAIL}?subject=Interested to Join Elite Tech Club`}
+                      className="flex-1 text-[#0075FF] font-bold text-lg hover:underline"
+                    >
+                      {CLUB_EMAIL}
+                    </a>
+                    <button
+                      onClick={handleCopyEmail}
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-blue-200 text-[#0075FF] text-sm font-medium hover:bg-blue-100 transition-all"
+                    >
+                      {copied ? (
+                        <>
+                          <FaCheck className="w-4 h-4" />
+                          Copied
+                        </>
+                      ) : (
+                        <>
+                          <FaCopy className="w-4 h-4" />
+                          Copy
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Quick email button */}
+                <a
+                  href={`mailto:${CLUB_EMAIL}?subject=Interested to Join Elite Tech Club&body=Hi Elite Club Team,%0D%0A%0D%0AI'm interested in joining the club. Here are my details:%0D%0A%0D%0AName: [Your Name]%0D%0AYear/Department: [Your Year/Department]%0D%0ADomain of Interest: [Your Domain]%0D%0A%0D%0AWhy I want to join: [Brief introduction]%0D%0A%0D%0ALooking forward to hearing from you!%0D%0A%0D%0ABest regards`}
+                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#0075FF] text-white font-semibold hover:bg-[#005FCC] transition-colors"
+                >
+                  <FaEnvelope className="w-4 h-4" />
+                  Open Email App
+                </a>
+
+                <button
+                  onClick={() => setShowContactPopup(false)}
+                  className="w-full py-3 rounded-xl bg-white border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors"
+                >
+                  Maybe Later
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

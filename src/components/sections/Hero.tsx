@@ -56,11 +56,11 @@ export default function Hero() {
             <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
           <Link
-            href="/projects"
+            href="/events"
             className="flex items-center gap-2 px-8 py-4 rounded-xl bg-white border border-gray-200 text-gray-900 font-semibold hover:bg-gray-50 transition-all hover:scale-105 active:scale-95"
           >
             <FaUsers className="w-4 h-4" />
-            View Projects
+            Explore Events
           </Link>
         </motion.div>
 

@@ -32,9 +32,7 @@ export default function EventCard({ event, index = 0 }: EventCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="absolute top-3 left-3">
           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-            event.isPast
-              ? "bg-gray-500/80 text-white"
-              : "bg-[#0075FF]/80 text-white"
+            event.isPast ? "bg-gray-500/80 text-white" : "bg-[#0075FF]/80 text-white"
           }`}>
             {event.isPast ? "Past" : "Upcoming"}
           </span>
@@ -68,7 +66,7 @@ export default function EventCard({ event, index = 0 }: EventCardProps) {
         </div>
 
         {!event.isPast && (
-          <div className="mb-4">
+          <div>
             <div className="flex items-center justify-between text-sm mb-2">
               <div className="flex items-center gap-2 text-gray-500">
                 <FaUsers className="w-4 h-4 text-green-500" />
@@ -89,17 +87,6 @@ export default function EventCard({ event, index = 0 }: EventCardProps) {
             </div>
           </div>
         )}
-
-        <button
-          disabled={event.isPast}
-          className={`w-full py-2.5 rounded-xl font-medium text-sm transition-all ${
-            event.isPast
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : "bg-blue-50 text-[#0075FF] border border-blue-100 hover:bg-[#0075FF] hover:text-white cursor-pointer"
-          }`}
-        >
-          {event.isPast ? "Event Ended" : "Register Now"}
-        </button>
       </div>
     </motion.div>
   );

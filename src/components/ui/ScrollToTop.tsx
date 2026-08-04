@@ -25,7 +25,7 @@ export default function ScrollToTop() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full bg-[#0075FF] shadow-lg flex items-center justify-center text-white hover:bg-[#005FCC] transition-colors cursor-pointer"
+          className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full bg-gradient-to-r from-[#0075FF] to-[#00C6FF] shadow-lg flex items-center justify-center text-white hover:shadow-xl transition-shadow cursor-pointer"
         >
           <FaArrowUp className="w-5 h-5" />
         </motion.button>

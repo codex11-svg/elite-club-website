@@ -5,13 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaBars, FaTimes } from "react-icons/fa";
+import Image from "next/image";
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/events", label: "Events" },
   { href: "/team", label: "Team" },
-  { href: "/projects", label: "Projects" },
-  { href: "/blog", label: "Blog" },
   { href: "/gallery", label: "Gallery" },
   { href: "/join", label: "Join" },
   { href: "/contact", label: "Contact" },
@@ -44,12 +43,23 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-lg bg-[#0075FF] flex items-center justify-center">
-                <span className="text-white font-bold text-sm">E</span>
+            <Link href="/" className="flex items-center gap-3">
+              <div className="relative w-10 h-10 flex-shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="Elite Club"
+                  fill
+                  className="object-contain"
+                  priority
+                />
               </div>
-              <span className="text-gray-900 font-bold text-lg hidden sm:block">
-                Elite<span className="text-[#0075FF]">Club</span>
+              <span className="hidden sm:block">
+                <span className="text-2xl font-black tracking-tight text-gray-900">
+                  ELITE
+                </span>
+                <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-[#0075FF] to-[#00C6FF] bg-clip-text text-transparent">
+                  CLUB
+                </span>
               </span>
             </Link>
 
@@ -98,6 +108,17 @@ export default function Navbar() {
             <div className="absolute inset-0 bg-gray-900/25" onClick={() => setIsMobileMenuOpen(false)} />
             <div className="relative pt-20 px-4">
               <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-4 space-y-1">
+                {/* Mobile Logo */}
+                <div className="flex items-center gap-3 px-4 py-3 mb-2">
+                  <div className="relative w-8 h-8 flex-shrink-0">
+                    <Image src="/logo.png" alt="Elite Club" fill className="object-contain" />
+                  </div>
+                  <span className="text-xl font-black tracking-tight">
+                    <span className="text-gray-900">ELITE</span>
+                    <span className="bg-gradient-to-r from-[#0075FF] to-[#00C6FF] bg-clip-text text-transparent">CLUB</span>
+                  </span>
+                </div>
+                <div className="h-px bg-gray-100 mx-4 mb-2" />
                 {navLinks.map((link, index) => (
                   <motion.div
                     key={link.href}

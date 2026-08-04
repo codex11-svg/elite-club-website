@@ -26,37 +26,7 @@ export interface TeamMember {
   twitter?: string;
   gradient: string;
   isLead: boolean;
-  generation: number; // 0 = founders, 1 = first batch, 2 = second batch, etc.
-}
-
-export interface Project {
-  id: number;
-  title: string;
-  description: string;
-  tech: string[];
-  github: string;
-  demo: string;
-  stars: number;
-  forks: number;
-  category: "Web" | "Mobile" | "AI/ML" | "Bot" | "Other";
-  contributors: string[];
-  status: "Active" | "Completed" | "In Progress";
-}
-
-export interface BlogPost {
-  id: number;
-  slug: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  authorRole: string;
-  authorImage: string;
-  date: string;
-  readTime: string;
-  tags: string[];
-  featured: boolean;
-  coverImage: string;
+  generation: number;
 }
 
 export interface GalleryItem {
@@ -93,4 +63,22 @@ export interface Sponsor {
   name: string;
   tier: "Platinum" | "Gold" | "Silver";
   logo: string;
+}
+
+export interface QuizQuestion {
+  id: number;
+  question: string;
+  options: {
+    text: string;
+    scores: Record<string, number>;
+  }[];
+}
+
+export interface DomainResult {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  color: string;
+  skills: string[];
 }

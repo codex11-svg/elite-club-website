@@ -1,18 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { FaGithub, FaTwitter, FaLinkedin, FaInstagram, FaDiscord } from "react-icons/fa";
 
 const footerLinks = {
   Club: [
     { label: "About Us", href: "/" },
     { label: "Our Team", href: "/team" },
-    { label: "Projects", href: "/projects" },
     { label: "Events", href: "/events" },
+    { label: "Gallery", href: "/gallery" },
   ],
   Resources: [
-    { label: "Blog", href: "/blog" },
-    { label: "Gallery", href: "/gallery" },
     { label: "Join Us", href: "/join" },
     { label: "Contact", href: "/contact" },
   ],
@@ -32,12 +31,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-[#0075FF] flex items-center justify-center">
-                <span className="text-white font-bold text-sm">E</span>
+            <Link href="/" className="flex items-center gap-3 mb-4">
+              <div className="relative w-10 h-10 flex-shrink-0">
+                <Image src="/logo.png" alt="Elite Club" fill className="object-contain" />
               </div>
-              <span className="text-gray-900 font-bold text-lg">
-                Elite<span className="text-[#0075FF]">Club</span>
+              <span className="text-2xl font-black tracking-tight">
+                <span className="text-gray-900">ELITE</span>
+                <span className="bg-gradient-to-r from-[#0075FF] to-[#00C6FF] bg-clip-text text-transparent">CLUB</span>
               </span>
             </Link>
             <p className="text-gray-500 text-sm max-w-sm mb-6">
