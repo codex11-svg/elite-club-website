@@ -53,11 +53,11 @@ export default function Navbar() {
                   priority
                 />
               </div>
-              <span className="hidden sm:block">
-                <span className="text-2xl font-black tracking-tight text-gray-900">
+              <span className="flex items-center">
+                <span className="text-xl sm:text-2xl font-black tracking-tight text-gray-900">
                   ELITE
                 </span>
-                <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-[#0075FF] to-[#00C6FF] bg-clip-text text-transparent">
+                <span className="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-[#0075FF] to-[#00C6FF] bg-clip-text text-transparent">
                   CLUB
                 </span>
               </span>
