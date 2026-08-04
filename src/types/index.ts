@@ -26,6 +26,7 @@ export interface TeamMember {
   twitter?: string;
   gradient: string;
   isLead: boolean;
+  generation: number; // 0 = founders, 1 = first batch, 2 = second batch, etc.
 }
 
 export interface Project {
