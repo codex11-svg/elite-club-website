@@ -313,7 +313,7 @@ name: "Nihal Mujawar",
 role: "Technical Lead",
 department: "Electronics & Computer Science Engineering",
 year: "Junior",
-image: "/team/nihal.jpeg", // <--- Points to public/team/nihal.jpg
+image: "https://u8bpht0nyapz7tyd.public.blob.vercel-storage.com/nihal.jpeg", // <--- Points to public/team/nihal.jpg
 bio: "Backend specialist focused on distributed systems and cloud architecture.",
 github: "https://github.com",
 linkedin: "https://linkedin.com",
