@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaSearch, FaCrown, FaStar, FaUsers } from "react-icons/fa";
+import { FaSearch, FaCrown, FaStar, FaUsers, FaTimes } from "react-icons/fa";
+import Image from "next/image";
 import TeamCard from "@/components/cards/TeamCard";
 import { teamMembers } from "@/lib/data";
 
@@ -24,6 +25,17 @@ export default function TeamPage() {
     return 2;
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const [previewImage, setPreviewImage] = useState<{ url: string; name: string } | null>(null);
+
+  const handleImageClick = (imageUrl: string, name: string) => {
+    setPreviewImage({ url: imageUrl, name });
+    document.body.style.overflow = "hidden";
+  };
+
+  const closePreview = () => {
+    setPreviewImage(null);
+    document.body.style.overflow = "auto";
+  };
 
   const filteredMembers = teamMembers.filter((member) => {
     const genMatch = member.generation === activeGen;
@@ -154,7 +166,12 @@ export default function TeamPage() {
                 </p>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {leads.map((member, index) => (
-                    <TeamCard key={member.id} member={member} index={index} />
+                    <TeamCard 
+                      key={member.id} 
+                      member={member} 
+                      index={index} 
+                      onImageClick={handleImageClick} 
+                    />
                   ))}
                 </div>
               </div>
@@ -172,7 +189,12 @@ export default function TeamPage() {
                 </p>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {members.map((member, index) => (
-                    <TeamCard key={member.id} member={member} index={index} />
+                    <TeamCard 
+                      key={member.id} 
+                      member={member} 
+                      index={index} 
+                      onImageClick={handleImageClick} 
+                    />
                   ))}
                 </div>
               </div>
@@ -188,6 +210,46 @@ export default function TeamPage() {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* Full Screen Image Preview Modal */}
+      <AnimatePresence>
+        {previewImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+            onClick={closePreview}
+          >
+            <button
+              onClick={closePreview}
+              className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
+              aria-label="Close image modal"
+            >
+              <FaTimes className="w-5 h-5" />
+            </button>
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="relative max-w-xl max-h-[85vh] overflow-hidden rounded-2xl bg-white p-2 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative w-[320px] h-[320px] sm:w-[450px] sm:h-[450px] rounded-xl overflow-hidden">
+                <Image
+                  src={previewImage.url}
+                  alt={previewImage.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <p className="text-center font-bold text-gray-900 py-3 text-lg">
+                {previewImage.name}
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
