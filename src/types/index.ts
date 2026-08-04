@@ -84,3 +84,34 @@ export interface DomainResult {
   color: string;
   skills: string[];
 }
+
+// Legacy types for old components still on GitHub
+export interface BlogPost {
+  id: number;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  author: string;
+  authorRole: string;
+  authorImage: string;
+  date: string;
+  readTime: string;
+  tags: string[];
+  featured: boolean;
+  coverImage: string;
+}
+
+export interface Project {
+  id: number;
+  title: string;
+  description: string;
+  tech: string[];
+  github: string;
+  demo: string;
+  stars: number;
+  forks: number;
+  category: string;
+  contributors: string[];
+  status: string;
+}
