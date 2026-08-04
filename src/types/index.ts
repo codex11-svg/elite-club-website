@@ -3,12 +3,14 @@ export interface Event {
   title: string;
   date: string;
   time: string;
-  venue: string;
-  type: "Hackathon" | "Workshop" | "Bootcamp" | "Seminar" | "Competition" | "Meeting" | "Visit";
+  venue?: string;
+  location?: string;
+  type: string;
   description: string;
-  registrationLink: string;
+  registrationLink?: string;
   image: string;
-  spots: number;
+  spots?: number;
+  capacity?: number;
   registered: number;
   isPast: boolean;
 }

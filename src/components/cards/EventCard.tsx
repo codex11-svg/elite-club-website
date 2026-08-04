@@ -11,7 +11,8 @@ interface EventCardProps {
 }
 
 export default function EventCard({ event, index = 0 }: EventCardProps) {
-  const fillPercentage = Math.min((event.registered / event.spots) * 100, 100);
+  const totalSpots = event.spots ?? event.capacity ?? 100;
+  const fillPercentage = Math.min((event.registered / totalSpots) * 100, 100);
 
   return (
     <motion.div
@@ -59,9 +60,9 @@ export default function EventCard({ event, index = 0 }: EventCardProps) {
             <FaClock className="w-4 h-4 text-[#0075FF]" />
             <span>{event.time}</span>
           </div>
-          <div className="flex items-center gap-2 text-gray-500 text-sm">
+            <div className="flex items-center gap-2 text-gray-500 text-sm">
             <FaMapMarkerAlt className="w-4 h-4 text-[#0075FF]" />
-            <span>{event.venue}</span>
+            <span>{event.venue ?? event.location ?? "TBD"}</span>
           </div>
         </div>
 
@@ -70,7 +71,7 @@ export default function EventCard({ event, index = 0 }: EventCardProps) {
             <div className="flex items-center justify-between text-sm mb-2">
               <div className="flex items-center gap-2 text-gray-500">
                 <FaUsers className="w-4 h-4 text-green-500" />
-                <span>{event.registered} / {event.spots} registered</span>
+                <span>{event.registered} / {totalSpots} registered</span>
               </div>
               <span className="text-gray-400 text-xs">{Math.round(fillPercentage)}%</span>
             </div>

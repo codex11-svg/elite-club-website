@@ -1,177 +1,695 @@
-// src/lib/data.ts
+import { Event, TeamMember, GalleryItem, Stat, Testimonial, FAQ, Sponsor, QuizQuestion, DomainResult } from "@/types";
 
-export const blogPosts = [
-  {
-    id: "1",
-    title: "Getting Started with Web Development in ECS",
-    slug: "getting-started-web-dev",
-    excerpt: "A beginner's roadmap to mastering HTML, CSS, JavaScript, and React for engineering students.",
-    content: "Full guide content for ECS web developers...",
-    author: {
-      name: "Abdul Rehman Kalsekar",
-      role: "Technical Lead",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80"
-    },
-    publishedAt: "2026-02-15",
-    readTime: "5 min read",
-    tags: ["Web Dev", "React", "Beginners"],
-    featured: true
-  }
+export const stats: Stat[] = [
+  { label: "Active Members", value: 250, suffix: "+", icon: "users" },
+  { label: "Events Hosted", value: 45, suffix: "+", icon: "calendar" },
+  { label: "Projects Built", value: 80, suffix: "+", icon: "code" },
+  { label: "Hackathons Won", value: 12, suffix: "", icon: "trophy" },
 ];
 
-export const projects = [
+export const events: Event[] = [
   {
-    id: "1",
-    title: "ELITE Club Portal",
-    description: "Official portal for ELITE Club, ECS Department at AIKTC.",
-    category: "Web",
-    status: "Active",
-    tags: ["Next.js", "Tailwind CSS", "TypeScript"],
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
-    githubUrl: "https://github.com/codex11-svg/elite-club-website",
-    liveUrl: "https://elite.aiktc.ac.in",
-    featured: true
-  }
-];
-
-export const events = [
+    id: 1,
+    title: "CodeSprint 2025",
+    date: "2025-02-15",
+    time: "09:00 AM - 06:00 PM",
+    venue: "Main Auditorium",
+    type: "Hackathon",
+    description: "A 9-hour hackathon focused on building innovative solutions for real-world problems. Prizes worth $5000.",
+    registrationLink: "#",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80",
+    spots: 100,
+    registered: 78,
+    isPast: false,
+  },
   {
-    id: "1",
-    title: "IoT & Cloud Computing Workshop",
-    description: "Hands-on session on IoT protocols, cloud integration, and microcontroller programming.",
+    id: 2,
+    title: "AI/ML Workshop Series",
+    date: "2025-02-20",
+    time: "02:00 PM - 05:00 PM",
+    venue: "Lab 302",
     type: "Workshop",
-    date: "Aug 21, 2026",
+    description: "Hands-on workshop covering neural networks, computer vision, and NLP with Python and TensorFlow.",
+    registrationLink: "#",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
+    spots: 50,
+    registered: 42,
+    isPast: false,
+  },
+  {
+    id: 3,
+    title: "Web Dev Bootcamp",
+    date: "2025-03-10",
     time: "10:00 AM - 04:00 PM",
-    location: "ECS Computer Lab 302",
-    capacity: 60,
-    registered: 48,
-    isPast: false,
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80"
-  },
-  {
-    id: "2",
-    title: "Web Tech 2-Day Bootcamp",
-    description: "Intensive 2-day session covering modern frontend stacks and API development.",
+    venue: "Online",
     type: "Bootcamp",
-    date: "Sep 16, 2026",
-    time: "09:00 AM - 05:00 PM",
-    location: "Main Seminar Hall",
-    capacity: 100,
-    registered: 85,
+    description: "Intensive 3-day bootcamp covering React, Next.js, TypeScript, and modern web development practices.",
+    registrationLink: "#",
+    image: "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=800&q=80",
+    spots: 200,
+    registered: 156,
     isPast: false,
-    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80"
-  }
-];
-
-export const teamMembers = [
-  {
-    id: "1",
-    name: "Bandanawaz Kotiyal",
-    role: "Head of Department",
-    department: "Electronics & Computer Science",
-    generation: 2,
-    bio: "HOD guiding technical innovation and academic excellence in the ECS department.",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80",
-    github: "https://github.com",
-    linkedin: "https://linkedin.com"
   },
   {
-    id: "2",
-    name: "Sayyad Umar",
-    role: "President",
-    department: "ECS",
-    generation: 2,
-    bio: "Leading ELITE Club operations, industry outreach, and student technical initiatives.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
-    github: "https://github.com",
-    linkedin: "https://linkedin.com"
-  }
+    id: 4,
+    title: "Cybersecurity Seminar",
+    date: "2024-11-10",
+    time: "11:00 AM - 01:00 PM",
+    venue: "Conference Hall B",
+    type: "Seminar",
+    description: "Expert-led seminar on ethical hacking, penetration testing, and securing modern web applications.",
+    registrationLink: "#",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
+    spots: 80,
+    registered: 80,
+    isPast: true,
+  },
+  {
+    id: 5,
+    title: "Design Sprint Challenge",
+    date: "2024-10-25",
+    time: "09:00 AM - 05:00 PM",
+    venue: "Design Studio",
+    type: "Competition",
+    description: "UI/UX design competition where teams create stunning interfaces for given problem statements.",
+    registrationLink: "#",
+    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80",
+    spots: 60,
+    registered: 55,
+    isPast: true,
+  },
+  {
+    id: 6,
+    title: "Blockchain Workshop",
+    date: "2025-03-25",
+    time: "01:00 PM - 04:00 PM",
+    venue: "Lab 401",
+    type: "Workshop",
+    description: "Introduction to blockchain technology, smart contracts, and building DApps with Ethereum.",
+    registrationLink: "#",
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80",
+    spots: 40,
+    registered: 28,
+    isPast: false,
+  },
 ];
 
-export const stats = [
-  { icon: "users", value: 250, label: "Active Members", suffix: "+" },
-  { icon: "calendar", value: 45, label: "Events Conducted", suffix: "+" },
-  { icon: "code", value: 80, label: "Projects Built", suffix: "+" },
-  { icon: "trophy", value: 12, label: "Hackathon Wins", suffix: "" }
+export const teamMembers: TeamMember[] = [
+  // ===== GEN 0 — FOUNDERS (The Legends) =====
+  {
+    id: 1,
+    name: "Rohan Sharma",
+    role: "Founder & President",
+    department: "Computer Science",
+    year: "Alumni",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
+    bio: "Founded Elite Club in 2020 with a vision to build a community of tech innovators. Now working at Google as a Software Engineer.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    gradient: "from-blue-500 to-cyan-400",
+    isLead: true,
+    generation: 0,
+  },
+  {
+    id: 2,
+    name: "Priya Nair",
+    role: "Co-Founder & Vice President",
+    department: "Information Technology",
+    year: "Alumni",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
+    bio: "Co-founded Elite Club alongside Rohan. Pioneered the first hackathon and workshop series. Now a Product Manager at Microsoft.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    gradient: "from-purple-500 to-pink-400",
+    isLead: true,
+    generation: 0,
+  },
+  {
+    id: 3,
+    name: "Arjun Patel",
+    role: "Co-Founder & Technical Lead",
+    department: "Electronics",
+    year: "Alumni",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80",
+    bio: "Built the first club website and established the technical foundation. Currently pursuing Masters in CS at Stanford.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    gradient: "from-emerald-500 to-teal-400",
+    isLead: true,
+    generation: 0,
+  },
+  {
+    id: 4,
+    name: "Sneha Reddy",
+    role: "Co-Founder & Design Lead",
+    department: "Computer Science",
+    year: "Alumni",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
+    bio: "Created the brand identity and design system for Elite Club. Now a Senior UX Designer at Adobe.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    gradient: "from-rose-500 to-orange-400",
+    isLead: true,
+    generation: 0,
+  },
+  {
+    id: 5,
+    name: "Karthik Iyer",
+    role: "Founding Member",
+    department: "Data Science",
+    year: "Alumni",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80",
+    bio: "One of the first 10 members who believed in the vision. Organized the inaugural coding competition.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    gradient: "from-amber-500 to-yellow-400",
+    isLead: false,
+    generation: 0,
+  },
+  {
+    id: 6,
+    name: "Ananya Gupta",
+    role: "Founding Member",
+    department: "Computer Science",
+    year: "Alumni",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80",
+    bio: "Helped establish the mentorship program and onboarding process for new members.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    gradient: "from-indigo-500 to-violet-400",
+    isLead: false,
+    generation: 0,
+  },
+
+  // ===== GEN 1 — FIRST BATCH =====
+  {
+    id: 7,
+    name: "Vikram Desai",
+    role: "President",
+    department: "Computer Science",
+    year: "Alumni",
+    image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&q=80",
+    bio: "Led the club through its first major growth phase. Expanded from 20 to 100+ members. Now at Amazon.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    gradient: "from-sky-500 to-blue-400",
+    isLead: true,
+    generation: 1,
+  },
+  {
+    id: 8,
+    name: "Meera Krishnan",
+    role: "Vice President",
+    department: "Software Engineering",
+    year: "Alumni",
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80",
+    bio: "Introduced the AI/ML domain and organized the first inter-college hackathon. Now a Data Scientist at Netflix.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    gradient: "from-fuchsia-500 to-purple-400",
+    isLead: true,
+    generation: 1,
+  },
+  {
+    id: 9,
+    name: "Aditya Menon",
+    role: "Technical Lead",
+    department: "Information Technology",
+    year: "Alumni",
+    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80",
+    bio: "Built the club's project management system and CI/CD pipeline for all club projects.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    gradient: "from-teal-500 to-emerald-400",
+    isLead: true,
+    generation: 1,
+  },
+  {
+    id: 10,
+    name: "Divya Joshi",
+    role: "Design Lead",
+    department: "HCI",
+    year: "Alumni",
+    image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80",
+    bio: "Redesigned the club website and created design templates used by all club projects.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    gradient: "from-pink-500 to-rose-400",
+    isLead: true,
+    generation: 1,
+  },
+  {
+    id: 11,
+    name: "Nikhil Bansal",
+    role: "Events Lead",
+    department: "Computer Science",
+    year: "Alumni",
+    image: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=400&q=80",
+    bio: "Organized 15+ successful events including the first national-level hackathon hosted by the club.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    gradient: "from-cyan-500 to-sky-400",
+    isLead: false,
+    generation: 1,
+  },
+  {
+    id: 12,
+    name: "Riya Malhotra",
+    role: "Outreach Lead",
+    department: "Data Science",
+    year: "Alumni",
+    image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80",
+    bio: "Established partnerships with 10+ tech companies for sponsorships and internship opportunities.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    gradient: "from-violet-500 to-purple-400",
+    isLead: false,
+    generation: 1,
+  },
+
+  // ===== GEN 2 — SECOND BATCH (Current Leaders) =====
+  {
+    id: 13,
+    name: "Alex Chen",
+    role: "President",
+    department: "Computer Science",
+    year: "Senior",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80",
+    bio: "Full-stack developer passionate about building scalable systems and mentoring junior developers.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    gradient: "from-blue-500 to-cyan-400",
+    isLead: true,
+    generation: 2,
+  },
+  {
+    id: 14,
+    name: "Sarah Johnson",
+    role: "Vice President",
+    department: "Data Science",
+    year: "Senior",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80",
+    bio: "ML engineer with expertise in NLP and computer vision. Loves hackathons and open source.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    gradient: "from-purple-500 to-pink-400",
+    isLead: true,
+    generation: 2,
+  },
+  {
+    id: 15,
+    name: "Marcus Williams",
+    role: "Technical Lead",
+    department: "Software Engineering",
+    year: "Junior",
+    image: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=400&q=80",
+    bio: "Backend specialist focused on distributed systems and cloud architecture.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    gradient: "from-emerald-500 to-teal-400",
+    isLead: true,
+    generation: 2,
+  },
+  {
+    id: 16,
+    name: "Emily Rodriguez",
+    role: "Design Lead",
+    department: "HCI",
+    year: "Junior",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80",
+    bio: "UI/UX designer creating intuitive and beautiful digital experiences.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    gradient: "from-rose-500 to-orange-400",
+    isLead: true,
+    generation: 2,
+  },
+  {
+    id: 17,
+    name: "David Kim",
+    role: "Events Coordinator",
+    department: "Computer Science",
+    year: "Sophomore",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80",
+    bio: "Organizer extraordinaire. Plans and executes memorable tech events and workshops.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    gradient: "from-amber-500 to-yellow-400",
+    isLead: false,
+    generation: 2,
+  },
+  {
+    id: 18,
+    name: "Priya Patel",
+    role: "Outreach Lead",
+    department: "Information Technology",
+    year: "Sophomore",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80",
+    bio: "Building bridges between students and industry through partnerships and collaborations.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+    gradient: "from-indigo-500 to-violet-400",
+    isLead: false,
+    generation: 2,
+  },
+  {
+    id: 19,
+    name: "James Thompson",
+    role: "Web Developer",
+    department: "Computer Science",
+    year: "Freshman",
+    image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&q=80",
+    bio: "Frontend enthusiast specializing in React and modern CSS frameworks.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    gradient: "from-sky-500 to-blue-400",
+    isLead: false,
+    generation: 2,
+  },
+  {
+    id: 20,
+    name: "Lisa Wang",
+    role: "ML Engineer",
+    department: "Data Science",
+    year: "Junior",
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80",
+    bio: "Researching deep learning applications in healthcare and autonomous systems.",
+    github: "https://github.com",
+    linkedin: "https://linkedin.com",
+    gradient: "from-fuchsia-500 to-purple-400",
+    isLead: false,
+    generation: 2,
+  },
+];
+
+export const galleryItems: GalleryItem[] = [
+  {
+    id: 1,
+    src: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80",
+    title: "CodeSprint 2024",
+    category: "Hackathon",
+    date: "2024-03-15",
+  },
+  {
+    id: 2,
+    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80",
+    title: "Tech Talk Series",
+    category: "Seminar",
+    date: "2024-02-20",
+  },
+  {
+    id: 3,
+    src: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80",
+    title: "AI Workshop",
+    category: "Workshop",
+    date: "2024-01-18",
+  },
+  {
+    id: 4,
+    src: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800&q=80",
+    title: "Team Building",
+    category: "Social",
+    date: "2024-01-10",
+  },
+  {
+    id: 5,
+    src: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80",
+    title: "Design Sprint",
+    category: "Competition",
+    date: "2023-12-05",
+  },
+  {
+    id: 6,
+    src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
+    title: "Coding Bootcamp",
+    category: "Bootcamp",
+    date: "2023-11-20",
+  },
+  {
+    id: 7,
+    src: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=800&q=80",
+    title: "Award Ceremony",
+    category: "Social",
+    date: "2023-11-15",
+  },
+  {
+    id: 8,
+    src: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80",
+    title: "Project Showcase",
+    category: "Hackathon",
+    date: "2023-10-28",
+  },
+  {
+    id: 9,
+    src: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80",
+    title: "Networking Event",
+    category: "Social",
+    date: "2023-10-10",
+  },
+];
+
+export const techStack = [
+  "React", "Next.js", "TypeScript", "Node.js", "Python", "TensorFlow",
+  "PostgreSQL", "MongoDB", "Docker", "AWS", "Tailwind CSS", "Figma",
+  "Git", "GitHub Actions", "Vercel", "Firebase", "Redis", "GraphQL",
 ];
 
 export const features = [
   {
-    icon: "workshop",
     title: "Hands-on Workshops",
-    description: "Practical sessions covering IoT, Cloud, AI/ML, and Web Technologies."
+    description: "Learn cutting-edge technologies through interactive workshops led by industry experts and senior members.",
+    icon: "workshop",
   },
   {
+    title: "Hackathons",
+    description: "Participate in intense coding competitions to build innovative solutions and win exciting prizes.",
     icon: "hackathon",
-    title: "Department Hackathons",
-    description: "Competitive coding hackathons focused on solving real hardware/software problems."
   },
   {
+    title: "Open Source",
+    description: "Contribute to real-world projects, build your portfolio, and collaborate with developers worldwide.",
     icon: "opensource",
-    title: "Open Source Projects",
-    description: "Collaborative project development building student portfolios."
   },
   {
+    title: "Mentorship",
+    description: "Get guidance from experienced seniors and industry professionals to accelerate your tech career.",
     icon: "mentorship",
-    title: "Peer Mentorship",
-    description: "Guidance from seniors and faculty on tech stacks and career paths."
-  }
-];
-
-export const faqs = [
-  {
-    question: "Who can join the ELITE Club?",
-    answer: "All students enrolled in the Electronics & Computer Science department at AIKTC can join."
   },
-  {
-    question: "How do I get event certificates?",
-    answer: "Certificates are unlocked immediately after attending a workshop and submitting the 30-second feedback form."
-  }
 ];
 
-export const sponsors = [
-  { name: "AIKTC", tier: "Platinum", logo: "https://images.unsplash.com/photo-1562774053-701939374585?w=200&q=80" },
-  { name: "ECS Department", tier: "Gold", logo: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=200&q=80" }
-];
-
-export const testimonials = [
-  {
-    quote: "ELITE Club helped me gain practical IoT skills alongside standard academic subjects.",
-    author: "Umar Sayyad",
-    role: "ECS Student Lead",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80"
-  }
-];
-
-export const techStack = [
-  "React", "Next.js", "TypeScript", "Python", "FastAPI", "Tailwind CSS", "Node.js", "PostgreSQL", "Firebase", "C++", "Arduino"
-];
-
-export const galleryItems = [
-  {
-    id: "1",
-    title: "IoT Session 2025",
-    category: "Workshops",
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80"
-  }
-];
-
-export const quizQuestions = [
+export const testimonials: Testimonial[] = [
   {
     id: 1,
-    question: "Which tech domain interests you the most?",
-    options: [
-      { text: "Web & Apps", domain: "code" },
-      { text: "AI & Machine Learning", domain: "ai" },
-      { text: "Cyber Security", domain: "security" },
-      { text: "IoT & Hardware", domain: "hardware" }
-    ]
-  }
+    name: "Jessica Lee",
+    role: "Software Engineer at Google",
+    content: "Joining Elite Club was the best decision I made in college. The hands-on workshops and mentorship helped me land my dream job.",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
+  },
+  {
+    id: 2,
+    name: "Michael Brown",
+    role: "Full Stack Developer",
+    content: "The hackathons here are incredible. I learned more in 48 hours than I did in an entire semester of classes.",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80",
+  },
+  {
+    id: 3,
+    name: "Amanda Wilson",
+    role: "Data Scientist",
+    content: "The AI/ML workshops gave me the foundation I needed to pursue a career in data science. The community is incredibly supportive.",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
+  },
 ];
 
-export const domainResults: Record<string, { title: string; description: string }> = {
-  code: { title: "Web & Mobile Development", description: "You love building modern interactive apps." },
-  ai: { title: "AI & Machine Learning", description: "You like working with data and model training." },
-  security: { title: "Cybersecurity", description: "You enjoy finding security vulnerabilities and hardening networks." },
-  hardware: { title: "IoT & Embedded Systems", description: "You like microcontrollers, sensors, and hardware circuits." }
-};
+export const faqs: FAQ[] = [
+  {
+    id: 1,
+    question: "How can I join Elite Tech Club?",
+    answer: "You can join by filling out the application form on our Join page. We review applications at the start of each semester and welcome students from all technical backgrounds.",
+  },
+  {
+    id: 2,
+    question: "Do I need prior coding experience?",
+    answer: "Not at all! We welcome members at all skill levels, from complete beginners to advanced developers. Our workshops are designed to accommodate everyone.",
+  },
+  {
+    id: 3,
+    question: "What kind of events does the club host?",
+    answer: "We host a variety of events including hackathons, workshops, bootcamps, seminars, and networking sessions. Check our Events page for the latest schedule.",
+  },
+  {
+    id: 4,
+    question: "Are there any membership fees?",
+    answer: "No, membership is completely free. We believe in making tech education accessible to all students.",
+  },
+  {
+    id: 5,
+    question: "Can I contribute to club projects?",
+    answer: "Absolutely! We encourage members to collaborate on projects within their domains. Join the club to find projects that match your interests.",
+  },
+  {
+    id: 6,
+    question: "How do I get mentorship from senior members?",
+    answer: "You can request mentorship through our Join form or reach out to any lead directly. We pair mentors and mentees based on interests and goals.",
+  },
+];
+
+export const sponsors: Sponsor[] = [
+  { id: 1, name: "Google", tier: "Platinum", logo: "https://images.unsplash.com/photo-1573804633927-bfcbcd909ae4?w=200&q=80" },
+  { id: 2, name: "Microsoft", tier: "Platinum", logo: "https://images.unsplash.com/photo-1633419461186-7d40a38105ec?w=200&q=80" },
+  { id: 3, name: "Amazon", tier: "Gold", logo: "https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=200&q=80" },
+  { id: 4, name: "Meta", tier: "Gold", logo: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=200&q=80" },
+  { id: 5, name: "Netflix", tier: "Silver", logo: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=200&q=80" },
+  { id: 6, name: "Spotify", tier: "Silver", logo: "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=200&q=80" },
+];
+
+export const quizQuestions: QuizQuestion[] = [
+  {
+    id: 1,
+    question: "What excites you the most?",
+    options: [
+      { text: "Building beautiful websites and apps people love to use", scores: { web: 3, design: 2, mobile: 1 } },
+      { text: "Teaching computers to think and learn on their own", scores: { ai: 3, data: 2, web: 0 } },
+      { text: "Creating stunning visuals and user experiences", scores: { design: 3, web: 1, mobile: 1 } },
+      { text: "Securing systems and finding vulnerabilities", scores: { security: 3, ai: 0, web: 1 } },
+    ],
+  },
+  {
+    id: 2,
+    question: "Which activity sounds most fun to you?",
+    options: [
+      { text: "Designing a mobile app interface in Figma", scores: { design: 3, mobile: 2, web: 0 } },
+      { text: "Writing Python scripts to analyze data patterns", scores: { ai: 3, data: 2, security: 0 } },
+      { text: "Setting up servers and cloud infrastructure", scores: { cloud: 3, security: 2, web: 1 } },
+      { text: "Building a full-stack web application", scores: { web: 3, mobile: 1, cloud: 1 } },
+    ],
+  },
+  {
+    id: 3,
+    question: "What would you rather work on?",
+    options: [
+      { text: "A chatbot that understands human language", scores: { ai: 3, data: 1, web: 0 } },
+      { text: "An e-commerce website with payment integration", scores: { web: 3, mobile: 1, cloud: 1 } },
+      { text: "A brand identity and marketing campaign", scores: { design: 3, web: 1, mobile: 0 } },
+      { text: "A penetration testing toolkit", scores: { security: 3, cloud: 1, ai: 0 } },
+    ],
+  },
+  {
+    id: 4,
+    question: "Which tool would you pick first?",
+    options: [
+      { text: "TensorFlow / PyTorch", scores: { ai: 3, data: 2, security: 0 } },
+      { text: "React / Next.js", scores: { web: 3, mobile: 1, design: 0 } },
+      { text: "Figma / Adobe Creative Suite", scores: { design: 3, web: 1, mobile: 1 } },
+      { text: "Kali Linux / Wireshark", scores: { security: 3, cloud: 1, ai: 0 } },
+    ],
+  },
+  {
+    id: 5,
+    question: "What kind of problem do you enjoy solving?",
+    options: [
+      { text: "Making a website load faster and scale better", scores: { web: 3, cloud: 2, mobile: 1 } },
+      { text: "Predicting trends from large datasets", scores: { data: 3, ai: 2, security: 0 } },
+      { text: "Making an app feel intuitive and delightful", scores: { design: 3, mobile: 2, web: 1 } },
+      { text: "Protecting data from hackers and breaches", scores: { security: 3, cloud: 1, web: 0 } },
+    ],
+  },
+  {
+    id: 6,
+    question: "Where do you see yourself in 5 years?",
+    options: [
+      { text: "Leading AI research at a tech giant", scores: { ai: 3, data: 1, security: 0 } },
+      { text: "Running a successful design agency", scores: { design: 3, web: 1, mobile: 1 } },
+      { text: "Building the next big social platform", scores: { web: 3, mobile: 2, cloud: 1 } },
+      { text: "Working as a cybersecurity consultant", scores: { security: 3, cloud: 1, ai: 0 } },
+    ],
+  },
+  {
+    id: 7,
+    question: "What frustrates you most about technology?",
+    options: [
+      { text: "Slow, ugly, and hard-to-use websites", scores: { web: 3, design: 2, mobile: 1 } },
+      { text: "Apps that don't understand what I want", scores: { ai: 3, data: 1, design: 0 } },
+      { text: "Poor visual design and bad branding", scores: { design: 3, web: 1, mobile: 1 } },
+      { text: "Weak security and privacy violations", scores: { security: 3, cloud: 1, ai: 0 } },
+    ],
+  },
+  {
+    id: 8,
+    question: "Pick a weekend project:",
+    options: [
+      { text: "Train a model to recognize handwritten digits", scores: { ai: 3, data: 2, security: 0 } },
+      { text: "Redesign your favorite app's homepage", scores: { design: 3, web: 1, mobile: 2 } },
+      { text: "Build a personal portfolio website", scores: { web: 3, design: 1, cloud: 0 } },
+      { text: "Set up a home server with Docker containers", scores: { cloud: 3, security: 2, web: 1 } },
+    ],
+  },
+];
+
+export const domainResults: DomainResult[] = [
+  {
+    id: "web",
+    name: "Web Development",
+    description: "You have a passion for building the modern web! You'll thrive creating responsive websites, interactive web apps, and full-stack solutions using React, Next.js, Node.js, and more.",
+    icon: "code",
+    color: "from-blue-500 to-cyan-400",
+    skills: ["React", "Next.js", "TypeScript", "Node.js", "Tailwind CSS"],
+  },
+  {
+    id: "ai",
+    name: "AI / Machine Learning",
+    description: "You're drawn to the cutting edge of technology! You'll excel at building intelligent systems, training neural networks, and creating data-driven solutions with Python and TensorFlow.",
+    icon: "brain",
+    color: "from-purple-500 to-pink-400",
+    skills: ["Python", "TensorFlow", "PyTorch", "OpenCV", "NLP"],
+  },
+  {
+    id: "design",
+    name: "UI/UX Design",
+    description: "You have an eye for aesthetics and user experience! You'll shine creating beautiful interfaces, user flows, and design systems using Figma, Adobe Creative Suite, and prototyping tools.",
+    icon: "palette",
+    color: "from-rose-500 to-orange-400",
+    skills: ["Figma", "Adobe XD", "Prototyping", "User Research", "Design Systems"],
+  },
+  {
+    id: "security",
+    name: "Cybersecurity",
+    description: "You're a guardian of the digital world! You'll excel at ethical hacking, penetration testing, securing networks, and protecting systems from threats using Kali Linux and security frameworks.",
+    icon: "shield",
+    color: "from-emerald-500 to-teal-400",
+    skills: ["Ethical Hacking", "Penetration Testing", "Network Security", "Cryptography", "SIEM"],
+  },
+  {
+    id: "cloud",
+    name: "Cloud & DevOps",
+    description: "You love infrastructure and automation! You'll thrive managing cloud deployments, CI/CD pipelines, and scalable systems using AWS, Docker, Kubernetes, and Terraform.",
+    icon: "cloud",
+    color: "from-sky-500 to-blue-400",
+    skills: ["AWS", "Docker", "Kubernetes", "Terraform", "CI/CD"],
+  },
+  {
+    id: "data",
+    name: "Data Science",
+    description: "You find stories in numbers! You'll excel at analyzing datasets, creating visualizations, and extracting insights using Python, SQL, Pandas, and data visualization tools.",
+    icon: "chart",
+    color: "from-amber-500 to-yellow-400",
+    skills: ["Python", "SQL", "Pandas", "Tableau", "Statistics"],
+  },
+  {
+    id: "mobile",
+    name: "Mobile Development",
+    description: "You want to build apps that fit in pockets! You'll thrive creating native and cross-platform mobile apps using React Native, Flutter, Swift, and Kotlin.",
+    icon: "mobile",
+    color: "from-indigo-500 to-violet-400",
+    skills: ["React Native", "Flutter", "Swift", "Kotlin", "Firebase"],
+  },
+];
