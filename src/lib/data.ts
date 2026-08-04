@@ -309,9 +309,9 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 15,
-    name: "Marcus Williams",
+    name: "Nihal Mujawar",
     role: "Technical Lead",
-    department: "Software Engineering",
+    department: "Electronics & Computer Science Engineering",
     year: "Junior",
     image: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=400&q=80",
     bio: "Backend specialist focused on distributed systems and cloud architecture.",
