@@ -2,12 +2,13 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaTwitter, FaSearchPlus } from "react-icons/fa";
 import { TeamMember } from "@/types";
 
 interface TeamCardProps {
   member: TeamMember;
   index?: number;
+  onImageClick?: (imageUrl: string, name: string) => void;
 }
 
 const genLabels: Record<number, { label: string; color: string }> = {
@@ -16,7 +17,7 @@ const genLabels: Record<number, { label: string; color: string }> = {
   2: { label: "Gen 2", color: "bg-[#0075FF]" },
 };
 
-export default function TeamCard({ member, index = 0 }: TeamCardProps) {
+export default function TeamCard({ member, index = 0, onImageClick }: TeamCardProps) {
   const genInfo = genLabels[member.generation] || { label: "Gen 2", color: "bg-[#0075FF]" };
 
   return (
@@ -38,17 +39,26 @@ export default function TeamCard({ member, index = 0 }: TeamCardProps) {
         </span>
       </div>
 
-      {/* Avatar */}
+      {/* Avatar (Clickable with Hover Zoom Indicator) */}
       <div className="relative -mt-10 mx-auto w-20 h-20">
-        <div className="w-20 h-20 rounded-full border-4 border-white overflow-hidden shadow-sm">
+        <button
+          type="button"
+          onClick={() => onImageClick?.(member.image, member.name)}
+          className="relative w-20 h-20 rounded-full border-4 border-white overflow-hidden shadow-sm group/avatar cursor-pointer block focus:outline-none"
+          title="Click to view full photo"
+        >
           <Image
             src={member.image}
             alt={member.name}
             width={80}
             height={80}
-            className="object-cover w-full h-full"
+            className="object-cover w-full h-full group-hover/avatar:scale-110 transition-transform duration-300"
           />
-        </div>
+          {/* Zoom Overlay on Hover */}
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/avatar:opacity-100 transition-opacity flex items-center justify-center text-white text-xs">
+            <FaSearchPlus className="w-4 h-4" />
+          </div>
+        </button>
       </div>
 
       {/* Content */}
