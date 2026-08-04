@@ -1,5 +1,9 @@
 import { Event, TeamMember, GalleryItem, Stat, Testimonial, FAQ, Sponsor, QuizQuestion, DomainResult } from "@/types";
 
+// Empty exports for legacy pages still on GitHub (will be removed when pages are deleted)
+export const blogPosts: any[] = [];
+export const projects: any[] = [];
+
 export const stats: Stat[] = [
   { label: "Active Members", value: 250, suffix: "+", icon: "users" },
   { label: "Events Hosted", value: 45, suffix: "+", icon: "calendar" },
