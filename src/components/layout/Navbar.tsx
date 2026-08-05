@@ -111,7 +111,7 @@ export default function Navbar() {
                 {/* Mobile Logo */}
                 <div className="flex items-center gap-3 px-4 py-3 mb-2">
                   <div className="relative w-8 h-8 flex-shrink-0">
-                    <Image src="/logo.png" alt="Elite Club" fill className="object-contain" />
+                    <Image src="https://u8bpht0nyapz7tyd.public.blob.vercel-storage.com/WhatsApp%20Image%202026-08-04%20at%2010.09.54%20PM.jpeg" alt="Elite Club" fill className="object-contain" />
                   </div>
                   <span className="text-xl font-black tracking-tight">
                     <span className="text-gray-900">ELITE</span>
