@@ -33,7 +33,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-3 mb-4">
               <div className="relative w-10 h-10 flex-shrink-0">
-                <Image src="/logo.png" alt="Elite Club" fill className="object-contain" />
+                <Image src="https://u8bpht0nyapz7tyd.public.blob.vercel-storage.com/WhatsApp%20Image%202026-08-04%20at%2010.09.54%20PM.jpeg" alt="Elite Club" fill className="object-contain" />
               </div>
               <span className="text-2xl font-black tracking-tight">
                 <span className="text-gray-900">ELITE</span>
